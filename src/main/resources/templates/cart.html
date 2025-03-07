@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Giỏ hàng</title>
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="text-center">Giỏ hàng của bạn</h1>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${cart}">
+            <td><img th:src="@{${item.image}}" width="50" class="rounded"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+            <td>
+                <form action="/cart/update" method="post" class="d-flex">
+                    <input type="hidden" name="productId" th:value="${item.productId}">
+                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control w-50">
+                    <button type="submit" class="btn btn-warning ms-2">Cập nhật</button>
+                </form>
+            </td>
+            <td th:text="${#numbers.formatDecimal(item.totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+            <td>
+                <form action="/cart/remove" method="post">
+                    <input type="hidden" name="productId" th:value="${item.productId}">
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

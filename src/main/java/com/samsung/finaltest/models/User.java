@@ -1,10 +1,9 @@
 package com.samsung.finaltest.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import javax.management.relation.Role;
 
 @Entity
 @Table(name = "users")
@@ -12,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -23,4 +23,10 @@ public class User {
     private String password;
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public enum Role{
+        USER, ADMIN
+    }
 }
