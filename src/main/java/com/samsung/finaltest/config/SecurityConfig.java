@@ -25,15 +25,24 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/products/**", "/cart/**", "/register", "/login").permitAll() // ✅ Cho phép truy cập công khai
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // ✅ Chỉ ADMIN mới truy cập được
+                        .requestMatchers("/", "/products/**", "/cart/**", "/register", "/login").permitAll() //
+                        .requestMatchers("/admin/**").hasRole("ADMIN") //
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login").permitAll()
-                        .defaultSuccessUrl("/", true) // ✅ Chuyển hướng về trang chủ sau khi đăng nhập
+                        .defaultSuccessUrl("/index", true) //
                 )
-                .logout(logout -> logout.permitAll());
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout") //
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                )
+                .sessionManagement(session -> session
+                        .maximumSessions(1)
+                        .expiredUrl("/login?expired") //
+                );
 
         return http.build();
     }

@@ -35,7 +35,7 @@ public class OrderService {
             orderDetail.setProduct(new Product(item.getProductId(), item.getName(), item.getPrice(), item.getImage())); // ✅ Thêm Product vào
             orderDetail.setQuantity(item.getQuantity());
             orderDetail.setTotalPrice(item.getTotalPrice());
-            orderDetailRepository.save(orderDetail); // ✅ Lưu từng chi tiết đơn hàng
+            orderDetailRepository.save(orderDetail); // Lưu từng chi tiết đơn hàng
         }
 
         cartService.clearCart();

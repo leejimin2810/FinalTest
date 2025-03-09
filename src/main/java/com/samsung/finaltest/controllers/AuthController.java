@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @Controller
 public class AuthController {
     private final UserRepository userRepository;
@@ -40,12 +42,17 @@ public class AuthController {
                 .build();
 
         userRepository.save(user);
-
         return "redirect:/login";
     }
 
     @GetMapping("/login")
     public String loginForm() {
         return "login";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login?logout";
     }
 }
